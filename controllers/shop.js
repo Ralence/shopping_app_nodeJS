@@ -13,7 +13,7 @@ exports.getProducts = (req, res, next) => {
 
 exports.getProduct = (req, res, next) => {
   const productId = req.params.productId;
-  Product.findBzId(productId, product => {
+  Product.findById(productId, product => {
     res.render('shop/product-detail', {
       product,
       pageTitle: product.title,
@@ -38,6 +38,13 @@ exports.getCart = (req, res, next) => {
     path: '/cart',
     pageTitle: 'Your Cart',
   });
+};
+
+exports.postCart = (req, res, next) => {
+  const productId = req.body.productId;
+  console.log(productId);
+  res.redirect('/cart');
+  //Product.findById(productId, ())
 };
 
 exports.getOrders = (req, res, next) => {
