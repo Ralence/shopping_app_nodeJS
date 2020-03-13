@@ -48,6 +48,9 @@ module.exports = class Cart {
       const oldCart = JSON.parse(fileContent);
       const updatedCart = { ...oldCart };
       const productToDelete = updatedCart.products.find(product => product.id === id);
+      if (!productToDelete) {
+        return;
+      }
       const quantity = productToDelete.quantity;
       updatedCart.totalPrice = updatedCart.totalPrice - productToDelete.price * quantity;
       updatedCart.products = updatedCart.products.filter(prod => prod.id !== id);

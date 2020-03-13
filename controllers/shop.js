@@ -62,6 +62,12 @@ exports.postCart = (req, res, next) => {
   //Product.findById(productId, ())
 };
 
+exports.postCartDeleteProduct = (req, res, next) => {
+  const productId = req.body.productId;
+  Cart.deleteProduct(productId);
+  res.redirect('/cart');
+};
+
 exports.getOrders = (req, res, next) => {
   res.render('shop/orders', {
     path: '/orders',
