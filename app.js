@@ -23,6 +23,15 @@ app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use((req, res, next) => {
+  User.findByPk(1)
+    .then(user => {
+      req.user = user;
+      next();
+    })
+    .catch(err => console.log(err));
+});
+
 app.use(errorController.get404);
 
 Product.belongsTo(User, {
@@ -32,9 +41,19 @@ Product.belongsTo(User, {
 User.hasMany(Product);
 
 sequelize
-  .sync({ force: true })
+  //.sync({ force: true })
+  .sync()
   .then(res => {
     // console.log(res);
+    return User.findByPk(1);
+  })
+  .then(user => {
+    if (!user) {
+      return User.create({ name: 'Rale', email: 'test@test.mail' });
+    }
+    return user;
+  })
+  .then(user => {
     app.listen(3000);
   })
   .catch(err => console.log(err));
